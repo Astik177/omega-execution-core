@@ -1,0 +1,26 @@
+name: OMEGA Email Verifier
+
+on:
+  workflow_dispatch:
+    inputs:
+      email:
+        description: 'Email to verify'
+        required: true
+        
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: pip install aiohttp
+
+      - name: Execute OMEGA Cloud Swarm
+        run: python core_worker.py ${{ github.event.inputs.email }}
